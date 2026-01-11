@@ -1383,7 +1383,7 @@ MonoBehaviour:
   _dialogueController: {fileID: 1049391007}
   _confettiEffect: {fileID: 0}
   _confettiAtVisit: 1
-  _movesReward: 5
+  _movesReward: 2
   _rewardAtVisit: 1
   onDialogueComplete:
     m_PersistentCalls:
@@ -18863,7 +18863,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82da84b58ff00fe4998c1496e8a4c542, type: 2}
   _dialogueController: {fileID: 1049391007}
   _confettiEffect: {fileID: 0}
-  _confettiAtVisit: -1
+  _confettiAtVisit: 0
   _movesReward: 5
   _rewardAtVisit: 1
   onDialogueComplete:
