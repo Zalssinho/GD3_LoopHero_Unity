@@ -506,6 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementTimer: {fileID: 11400000, guid: 9dd68598f5988b9408665a1c9d340a29, type: 2}
   _startingMoves: 38
+  _turnManager: {fileID: 0}
   _gameOverPanel: {fileID: 785807149}
   _diceButton: {fileID: 782310340}
 --- !u!1 &347478468
@@ -1228,6 +1229,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb6dc1779ef6034695b8bf3c3effba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &540291581
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.35
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.42267847
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.16
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_Name
+      value: Knight D Pelegrini
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c6559684e1f045941bf3487e78fb53d4, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1ab7cb863ddee574b893b1ae81a22bf2, type: 3}
 --- !u!1 &667866397
 GameObject:
   m_ObjectHideFlags: 0
@@ -2237,6 +2299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21fd9ebce95fdc4997923ea6b4eb78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _objectToRemove: {fileID: 0}
+  _removeDelay: 0.5
 --- !u!114 &966522298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2481,8 +2545,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2adad6345eb93ec44a2ec09856caf733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timerText: {fileID: 1039214189}
   _movementTimer: {fileID: 11400000, guid: 9dd68598f5988b9408665a1c9d340a29, type: 2}
+  _turnManager: {fileID: 0}
+  _hoursText: {fileID: 0}
+  _hoursFormat: 'Temps restant : {0} heures'
+  _turnsText: {fileID: 0}
+  _turnsFormat: 'Tours : {0} / {1}'
 --- !u!1 &1120567844
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,7 +3241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _house: {fileID: 130023515}
-  _houseOffset: {x: -2, y: 0.5, z: 0}
   _houseAppearDuration: 0
 --- !u!1001 &1369456664
 PrefabInstance:
@@ -4786,9 +4853,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneToLoad: Level2
-  _requiredVisits: 2
-  _loadDelay: 2
-  _diceButton: {fileID: 782310340}
+  _turnManager: {fileID: 0}
+  _levelCompleteUI: {fileID: 0}
   _confettiEffect: {fileID: 0}
 --- !u!1 &3891298216726229536 stripped
 GameObject:
@@ -4922,3 +4988,4 @@ SceneRoots:
   - {fileID: 836705424}
   - {fileID: 130023519}
   - {fileID: 277713510}
+  - {fileID: 540291581}
