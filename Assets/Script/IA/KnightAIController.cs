@@ -36,15 +36,56 @@ public class KnightAIController : MonoBehaviour
     {
         switch (state)
         {
+            case StateType.Attack:
+                if (!GetComponent<SightPerception>().IsDetected)
+                {
+                    nextState = StateType.Patrol;
+                    return true;
+                }
+
+                if (Vector3.Distance(target.transform.position, transform.position) < attackDistance)
+                {
+                    nextState = StateType.Follow;
+                    return true;
+                }
+                break;
+
+            case StateType.Patrol:
+                if (GetComponent<SightPerception>().IsDetected)
+                {
+                    if (Vector3.Distance(target.transform.position, transform.position) <= attackDistance)
+                    {
+                        //alors j'attaque
+                        nextState = StateType.Attack;
+                        return true;
+                    }
+                    else
+                    {
+                        nextState = StateType.Follow;
+                        return true;
+                    }
+                }
+                break;
+
+
             case StateType.Follow:
-        // si la distance entre l'agent et le joueur est inférieur à ma distance d'attaque
-            if(Vector3.Distance(target.transform.position, transform.position) <= attackDistance)
+                // si la distance entre l'agent et le joueur est inférieur à ma distance d'attaque
+
+
+                if (!GetComponent<SightPerception>().IsDetected)
+                {
+                    nextState = StateType.Patrol;
+                    return true;
+                }
+
+                if (Vector3.Distance(target.transform.position, transform.position) <= attackDistance)
                 {
                     //alors j'attaque
                     nextState = StateType.Attack;
                     return true;
                 }
                 break;
+
         }
         return false;
     }
@@ -66,6 +107,9 @@ public class KnightAIController : MonoBehaviour
         switch (state)
         {
             case StateType.Follow:
+                GetComponent<NavMeshAgent>().SetDestination(transform.position);
+                break;
+            case StateType.Patrol:
                 GetComponent<NavMeshAgent>().SetDestination(transform.position);
                 break;
         }
@@ -93,11 +137,13 @@ public class KnightAIController : MonoBehaviour
     private void PatrolBehavior()
     {
         GetComponent<NavMeshAgent>().SetDestination(navpoint.transform.position);
+        GetComponent<Animator>().SetFloat("Speed", GetComponent<NavMeshAgent>().velocity.magnitude);
     }
 
     private void FollowBehavior()
     {
         GetComponent<NavMeshAgent>().SetDestination(target.transform.position);
+        GetComponent<Animator>().SetFloat("Speed", GetComponent<NavMeshAgent>().velocity.magnitude);
 
     }
 

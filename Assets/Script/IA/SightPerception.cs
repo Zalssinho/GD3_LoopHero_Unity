@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 
 public class SightPerception : MonoBehaviour
 {
-    [SerializeField] private bool IsDetected = false;
+    public bool IsDetected = false;
     [SerializeField] private float detectionRadius = 5f;
     [SerializeField] private GameObject detectionObject;
     private Vector3 targetDirection;
