@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
-
 
 public enum StateType
 {
@@ -13,20 +11,32 @@ public enum StateType
 
 public class KnightAIController : MonoBehaviour
 {
-
-    [SerializeField] private StateType state = StateType.None;
+    [SerializeField] private StateType state = StateType.Patrol;
     [SerializeField] private StateType nextState = StateType.None;
     [SerializeField] private GameObject target;
     [SerializeField] private GameObject navpoint;
     [SerializeField] private float attackDistance = 1.5f;
 
+    [Header("Labyrinth Reference")]
+    [SerializeField] private LabyrinthManager _labyrinthManager;
+
+    private NavMeshAgent _agent;
+    private Animator _animator;
+    private SightPerception _sight;
+
+    private void Awake()
+    {
+        _agent    = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+        _sight    = GetComponent<SightPerception>();
+    }
 
     private void Update()
     {
-        //Si j'ai une condition de changement d'état
+        //Si j'ai une condition de changement d'ï¿½tat
         if (TestChangeState())
         {
-            //alors je change d'état. 
+            //alors je change d'ï¿½tat. 
             ChangeState();
         }
         Behaviour();
@@ -34,16 +44,17 @@ public class KnightAIController : MonoBehaviour
 
     private bool TestChangeState()
     {
+        float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
+
         switch (state)
         {
             case StateType.Attack:
-                if (!GetComponent<SightPerception>().IsDetected)
+                if (!_sight.IsDetected)
                 {
                     nextState = StateType.Patrol;
                     return true;
                 }
-
-                if (Vector3.Distance(target.transform.position, transform.position) < attackDistance)
+                if (distanceToTarget > attackDistance)
                 {
                     nextState = StateType.Follow;
                     return true;
@@ -51,41 +62,27 @@ public class KnightAIController : MonoBehaviour
                 break;
 
             case StateType.Patrol:
-                if (GetComponent<SightPerception>().IsDetected)
+                if (_sight.IsDetected)
                 {
-                    if (Vector3.Distance(target.transform.position, transform.position) <= attackDistance)
-                    {
-                        //alors j'attaque
-                        nextState = StateType.Attack;
-                        return true;
-                    }
-                    else
-                    {
-                        nextState = StateType.Follow;
-                        return true;
-                    }
+                    nextState = distanceToTarget <= attackDistance
+                        ? StateType.Attack
+                        : StateType.Follow;
+                    return true;
                 }
                 break;
 
-
             case StateType.Follow:
-                // si la distance entre l'agent et le joueur est inférieur à ma distance d'attaque
-
-
-                if (!GetComponent<SightPerception>().IsDetected)
+                if (!_sight.IsDetected)
                 {
                     nextState = StateType.Patrol;
                     return true;
                 }
-
-                if (Vector3.Distance(target.transform.position, transform.position) <= attackDistance)
+                if (distanceToTarget <= attackDistance)
                 {
-                    //alors j'attaque
                     nextState = StateType.Attack;
                     return true;
                 }
                 break;
-
         }
         return false;
     }
@@ -97,58 +94,55 @@ public class KnightAIController : MonoBehaviour
         StartState();
     }
 
-    private void StartState()
-    {
-
-    }
+    private void StartState() { }
 
     private void EndState()
     {
         switch (state)
         {
             case StateType.Follow:
-                GetComponent<NavMeshAgent>().SetDestination(transform.position);
-                break;
             case StateType.Patrol:
-                GetComponent<NavMeshAgent>().SetDestination(transform.position);
+                _agent.SetDestination(transform.position);
                 break;
         }
     }
-
-
 
     private void Behaviour()
     {
         switch (state)
         {
-            case StateType.Patrol:
-                PatrolBehavior();
-                break;
-            case StateType.Follow:
-                FollowBehavior();
-                break;
-            case StateType.Attack:
-                AttackBehavior();
-                break; 
-        
+            case StateType.Patrol: PatrolBehavior(); break;
+            case StateType.Follow: FollowBehavior(); break;
+            case StateType.Attack: AttackBehavior(); break;
         }
     }
 
     private void PatrolBehavior()
     {
-        GetComponent<NavMeshAgent>().SetDestination(navpoint.transform.position);
-        GetComponent<Animator>().SetFloat("Speed", GetComponent<NavMeshAgent>().velocity.magnitude);
+        _agent.SetDestination(navpoint.transform.position);
+        _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
 
     private void FollowBehavior()
     {
-        GetComponent<NavMeshAgent>().SetDestination(target.transform.position);
-        GetComponent<Animator>().SetFloat("Speed", GetComponent<NavMeshAgent>().velocity.magnitude);
-
+        _agent.SetDestination(target.transform.position);
+        _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
 
     private void AttackBehavior()
     {
-        GetComponent<Animator>().SetTrigger(name: "Smash");
+        _animator.SetTrigger("Smash");
+
+        float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
+        if (distanceToTarget <= attackDistance)
+            _labyrinthManager?.OnPlayerCaught();
+    }
+
+    /// <summary>Remet l'IA en Ã©tat Patrol depuis le LabyrinthManager lors d'un reset.</summary>
+    public void ResetToPatrol()
+    {
+        _agent.SetDestination(transform.position);
+        state     = StateType.Patrol;
+        nextState = StateType.None;
     }
 }

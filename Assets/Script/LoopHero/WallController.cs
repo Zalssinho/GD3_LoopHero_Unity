@@ -30,9 +30,7 @@ public class WallController : MonoBehaviour, IActionable
         if (_wall != null)
         {
             _startPosition = _wall.transform.position;
-
-            Vector3 moveDirection = GetDirectionVector();
-            _targetPosition = _startPosition + (moveDirection * _moveDistance);
+            _targetPosition = _startPosition + GetDirectionVector() * _moveDistance;
         }
     }
 
@@ -40,20 +38,13 @@ public class WallController : MonoBehaviour, IActionable
     {
         switch (_direction)
         {
-            case MoveDirection.Left:
-                return Vector3.left;
-            case MoveDirection.Right:
-                return Vector3.right;
-            case MoveDirection.Up:
-                return Vector3.up;
-            case MoveDirection.Down:
-                return Vector3.down;
-            case MoveDirection.Forward:
-                return Vector3.forward;
-            case MoveDirection.Back:
-                return Vector3.back;
-            default:
-                return Vector3.left;
+            case MoveDirection.Left:    return Vector3.left;
+            case MoveDirection.Right:   return Vector3.right;
+            case MoveDirection.Up:      return Vector3.up;
+            case MoveDirection.Down:    return Vector3.down;
+            case MoveDirection.Forward: return Vector3.forward;
+            case MoveDirection.Back:    return Vector3.back;
+            default:                    return Vector3.left;
         }
     }
 
@@ -69,27 +60,21 @@ public class WallController : MonoBehaviour, IActionable
     private System.Collections.IEnumerator MoveWall()
     {
         if (_diceButton != null)
-        {
             _diceButton.SetActive(false);
-        }
 
         float elapsedTime = 0f;
 
         while (elapsedTime < _moveDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / _moveDuration;
-
-            _wall.transform.position = Vector3.Lerp(_startPosition, _targetPosition, t);
-
+            _wall.transform.position = Vector3.Lerp(_startPosition, _targetPosition, elapsedTime / _moveDuration);
             yield return null;
         }
 
         _wall.transform.position = _targetPosition;
 
         if (_diceButton != null)
-        {
             _diceButton.SetActive(true);
-        }
     }
 }
+
