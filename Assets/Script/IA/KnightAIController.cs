@@ -23,12 +23,13 @@ public class KnightAIController : MonoBehaviour
     private NavMeshAgent _agent;
     private Animator _animator;
     private SightPerception _sight;
+    private bool _isCatching = false;
 
     private void Awake()
     {
-        _agent    = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
-        _sight    = GetComponent<SightPerception>();
+        _sight = GetComponent<SightPerception>();
     }
 
     private void Update()
@@ -104,8 +105,12 @@ public class KnightAIController : MonoBehaviour
             case StateType.Patrol:
                 _agent.SetDestination(transform.position);
                 break;
+            case StateType.Attack:
+                _isCatching = false; // ← reset du flag quand on quitte l'état Attack
+                break;
         }
     }
+
 
     private void Behaviour()
     {
@@ -134,15 +139,20 @@ public class KnightAIController : MonoBehaviour
         _animator.SetTrigger("Smash");
 
         float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
-        if (distanceToTarget <= attackDistance)
+        if (distanceToTarget <= attackDistance && !_isCatching)
+        {
+            _isCatching = true;
             _labyrinthManager?.OnPlayerCaught();
+        }
     }
 
     /// <summary>Remet l'IA en état Patrol depuis le LabyrinthManager lors d'un reset.</summary>
     public void ResetToPatrol()
     {
         _agent.SetDestination(transform.position);
-        state     = StateType.Patrol;
+        state = StateType.Patrol;
         nextState = StateType.None;
+        _isCatching = false;   // ← ajouter
     }
 }
+

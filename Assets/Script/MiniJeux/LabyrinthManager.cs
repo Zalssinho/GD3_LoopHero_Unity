@@ -28,9 +28,13 @@ public class LabyrinthManager : MonoBehaviour
 
     private void Start()
     {
+        // Reset du tracker au démarrage : les ScriptableObjects persistent entre les sessions
+        _tracker.Reset();
+
         _labyrinthPlayer.gameObject.SetActive(false);
         _labyrinthCamera.gameObject.SetActive(false);
     }
+
 
     /// <summary>Bascule dans le labyrinthe : téléporte le joueur, met le plateau en pause.</summary>
     public void EnterLabyrinth()
@@ -39,7 +43,7 @@ public class LabyrinthManager : MonoBehaviour
         ResetFragments();
         ResetAI();
 
-        _labyrinthPlayer.transform.position = _labyrinthSpawnPoint.position;
+        TeleportLabyrinthPlayer(_labyrinthSpawnPoint.position); // ← remplace l'ancienne ligne
         _labyrinthPlayer.gameObject.SetActive(true);
 
         _boardPlayer.gameObject.SetActive(false);
@@ -49,6 +53,7 @@ public class LabyrinthManager : MonoBehaviour
         _mainCamera.gameObject.SetActive(false);
         _labyrinthCamera.gameObject.SetActive(true);
     }
+
 
     /// <summary>Retour au plateau : désactive le joueur labyrinthe, réactive le pion et les contrôles.</summary>
     public void ExitLabyrinth()
@@ -70,10 +75,10 @@ public class LabyrinthManager : MonoBehaviour
 
         _tracker.Reset();
         ResetFragments();
-        ResetAI();
 
-        _labyrinthPlayer.transform.position = _labyrinthSpawnPoint.position;
+        TeleportLabyrinthPlayer(_labyrinthSpawnPoint.position);
     }
+
 
     private void ResetFragments()
     {
@@ -91,4 +96,14 @@ public class LabyrinthManager : MonoBehaviour
             _knights[i].ResetToPatrol();
         }
     }
+
+    /// <summary>Téléporte le LabyrinthPlayer en désactivant temporairement le CharacterController.</summary>
+    private void TeleportLabyrinthPlayer(Vector3 destination)
+    {
+        CharacterController cc = _labyrinthPlayer.GetComponent<CharacterController>();
+        cc.enabled = false;
+        _labyrinthPlayer.transform.position = destination;
+        cc.enabled = true;
+    }
+
 }
