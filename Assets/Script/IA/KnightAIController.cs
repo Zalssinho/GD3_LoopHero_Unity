@@ -17,6 +17,10 @@ public class KnightAIController : MonoBehaviour
     [SerializeField] private GameObject navpoint;
     [SerializeField] private float attackDistance = 1.5f;
 
+    [Header("Movement Speeds")]
+    [SerializeField] private float patrolSpeed = 2f;
+    [SerializeField] private float chaseSpeed = 5f;
+
     [Header("Labyrinth Reference")]
     [SerializeField] private LabyrinthManager _labyrinthManager;
 
@@ -124,12 +128,14 @@ public class KnightAIController : MonoBehaviour
 
     private void PatrolBehavior()
     {
+        _agent.speed = patrolSpeed;
         _agent.SetDestination(navpoint.transform.position);
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
 
     private void FollowBehavior()
     {
+        _agent.speed = chaseSpeed;
         _agent.SetDestination(target.transform.position);
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }

@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cc81223bd21234941a715c1eb0e42e00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,7 +117,7 @@ Transform:
   m_GameObject: {fileID: 1566516718002391620}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.152, y: 32.59, z: 36.144}
+  m_LocalPosition: {x: 24.372, y: 22.84, z: 23.915}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -142,6 +142,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeyFragment
   _tracker: {fileID: 11400000, guid: 4c04a60e8d8921942a4454789d06748b, type: 2}
+  rotationSpeed: 90
+  floatAmplitude: 0.2
+  floatFrequency: 1
 --- !u!65 &4870250139537038475
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -174,7 +177,6 @@ GameObject:
   - component: {fileID: 2420728436463633925}
   - component: {fileID: 4226184338015118934}
   - component: {fileID: 9110799023495910549}
-  - component: {fileID: 1260424629959627907}
   m_Layer: 0
   m_Name: Key (4)
   m_TagString: Untagged
@@ -230,7 +232,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cc81223bd21234941a715c1eb0e42e00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -254,19 +256,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1260424629959627907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2372396926992966267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 802037eeeca9cab4798c8d71e8da4426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KeyFragment
-  _tracker: {fileID: 11400000, guid: 4c04a60e8d8921942a4454789d06748b, type: 2}
 --- !u!1 &4134960061787956594
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +267,6 @@ GameObject:
   - component: {fileID: 5549762767790476503}
   - component: {fileID: 8231651983825776413}
   - component: {fileID: 5927191780009280174}
-  - component: {fileID: 6457965988936986806}
   m_Layer: 0
   m_Name: Key (6)
   m_TagString: Untagged
@@ -334,7 +322,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cc81223bd21234941a715c1eb0e42e00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -358,19 +346,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6457965988936986806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4134960061787956594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 802037eeeca9cab4798c8d71e8da4426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KeyFragment
-  _tracker: {fileID: 11400000, guid: 4c04a60e8d8921942a4454789d06748b, type: 2}
 --- !u!1 &4418532030189326888
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +357,6 @@ GameObject:
   - component: {fileID: 4890055787907601697}
   - component: {fileID: 2975237906440594319}
   - component: {fileID: 7200427845659129336}
-  - component: {fileID: 1046404577582210934}
   m_Layer: 0
   m_Name: Key (3)
   m_TagString: Untagged
@@ -438,7 +412,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cc81223bd21234941a715c1eb0e42e00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -462,19 +436,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1046404577582210934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4418532030189326888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 802037eeeca9cab4798c8d71e8da4426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KeyFragment
-  _tracker: {fileID: 11400000, guid: 4c04a60e8d8921942a4454789d06748b, type: 2}
 --- !u!1 &7020354347972977353
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +447,6 @@ GameObject:
   - component: {fileID: 2818697137942733641}
   - component: {fileID: 8026062371810123835}
   - component: {fileID: 6856424608959135644}
-  - component: {fileID: 4186354827006103240}
   m_Layer: 0
   m_Name: Key (7)
   m_TagString: Untagged
@@ -542,7 +502,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cc81223bd21234941a715c1eb0e42e00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -566,19 +526,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4186354827006103240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7020354347972977353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 802037eeeca9cab4798c8d71e8da4426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KeyFragment
-  _tracker: {fileID: 11400000, guid: 4c04a60e8d8921942a4454789d06748b, type: 2}
 --- !u!1 &8467363017217147722
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +537,6 @@ GameObject:
   - component: {fileID: 2877197882205541832}
   - component: {fileID: 3519306765697473496}
   - component: {fileID: 3477857318850688859}
-  - component: {fileID: 8945083064110403031}
   m_Layer: 0
   m_Name: Key (5)
   m_TagString: Untagged
@@ -646,7 +592,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cc81223bd21234941a715c1eb0e42e00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -670,16 +616,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8945083064110403031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8467363017217147722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 802037eeeca9cab4798c8d71e8da4426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KeyFragment
-  _tracker: {fileID: 11400000, guid: 4c04a60e8d8921942a4454789d06748b, type: 2}

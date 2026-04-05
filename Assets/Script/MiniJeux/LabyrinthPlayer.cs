@@ -5,12 +5,18 @@ using UnityEngine.InputSystem;
 public class LabyrinthPlayer : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _walkSpeed = 3f;
+    [SerializeField] private float _runSpeed = 6f;
     [SerializeField] private float _gravity = -9.81f;
     [SerializeField] private float _rotationSpeed = 12f;
 
     [Header("Camera Reference")]
     [SerializeField] private Transform _cameraTransform;
+
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;
+
+    private static readonly int SpeedHash = Animator.StringToHash("Speed");
 
     private CharacterController _characterController;
     private float _verticalVelocity;
@@ -39,6 +45,8 @@ public class LabyrinthPlayer : MonoBehaviour
         if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) vertical += 1f;
         if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) vertical -= 1f;
 
+        bool isRunning = keyboard.leftShiftKey.isPressed;
+
         // Directions relatives à la caméra (sans l'axe Y)
         Vector3 camForward = _cameraTransform.forward;
         Vector3 camRight = _cameraTransform.right;
@@ -48,13 +56,22 @@ public class LabyrinthPlayer : MonoBehaviour
         camRight.Normalize();
 
         Vector3 moveDirection = camForward * vertical + camRight * horizontal;
+        float inputMagnitude = Mathf.Clamp01(moveDirection.magnitude);
 
         // Rotation du player vers la direction de déplacement
-        if (moveDirection.magnitude > 0.1f)
+        if (inputMagnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
+
+        // Vitesse selon marche / course (Shift)
+        float currentSpeed = isRunning ? _runSpeed : _walkSpeed;
+
+        // Paramètre animator : 0 = idle, 0.5 = walk, 1 = run
+        float animSpeed = inputMagnitude > 0.1f ? (isRunning ? 1f : 0.5f) : 0f;
+        if (_animator != null)
+            _animator.SetFloat(SpeedHash, animSpeed, 0.1f, Time.deltaTime);
 
         // Gravité
         if (_characterController.isGrounded)
@@ -62,7 +79,7 @@ public class LabyrinthPlayer : MonoBehaviour
         else
             _verticalVelocity += _gravity * Time.deltaTime;
 
-        Vector3 velocity = moveDirection * _moveSpeed + Vector3.up * _verticalVelocity;
+        Vector3 velocity = moveDirection.normalized * (inputMagnitude * currentSpeed) + Vector3.up * _verticalVelocity;
         _characterController.Move(velocity * Time.deltaTime);
     }
 }
