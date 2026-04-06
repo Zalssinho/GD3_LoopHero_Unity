@@ -5,6 +5,7 @@ public enum StateType
 {
     None,
     Patrol,
+    LookAround,
     Follow,
     Attack
 }
@@ -20,6 +21,10 @@ public class KnightAIController : MonoBehaviour
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private float waypointReachedDistance = 0.5f;
 
+    [Header("Look Around")]
+    [SerializeField] [Range(0f, 1f)] private float lookAroundChance = 0.5f;
+    [SerializeField] private float lookAroundDuration = 3f;
+
     [Header("Movement Speeds")]
     [SerializeField] private float patrolSpeed = 2f;
     [SerializeField] private float chaseSpeed = 5f;
@@ -32,6 +37,7 @@ public class KnightAIController : MonoBehaviour
     private SightPerception _sight;
     private bool _isCatching = false;
     private int _currentWaypointIndex = 0;
+    private float _lookAroundTimer = 0f;
 
     private void Awake()
     {
@@ -80,6 +86,21 @@ public class KnightAIController : MonoBehaviour
                 }
                 break;
 
+            case StateType.LookAround:
+                if (_sight.IsDetected)
+                {
+                    nextState = distanceToTarget <= attackDistance
+                        ? StateType.Attack
+                        : StateType.Follow;
+                    return true;
+                }
+                if (_lookAroundTimer <= 0f)
+                {
+                    nextState = StateType.Patrol;
+                    return true;
+                }
+                break;
+
             case StateType.Follow:
                 if (!_sight.IsDetected)
                 {
@@ -103,18 +124,30 @@ public class KnightAIController : MonoBehaviour
         StartState();
     }
 
-    private void StartState() { }
+    private void StartState()
+    {
+        if (state == StateType.LookAround)
+        {
+            _lookAroundTimer = lookAroundDuration;
+            _agent.SetDestination(transform.position);
+            _animator.SetBool("LookAround", true);
+            _animator.SetFloat("Speed", 0f);
+        }
+    }
 
     private void EndState()
     {
         switch (state)
         {
+            case StateType.LookAround:
+                _animator.SetBool("LookAround", false);
+                break;
             case StateType.Follow:
             case StateType.Patrol:
                 _agent.SetDestination(transform.position);
                 break;
             case StateType.Attack:
-                _isCatching = false; // ← reset du flag quand on quitte l'état Attack
+                _isCatching = false;
                 break;
         }
     }
@@ -124,9 +157,10 @@ public class KnightAIController : MonoBehaviour
     {
         switch (state)
         {
-            case StateType.Patrol: PatrolBehavior(); break;
-            case StateType.Follow: FollowBehavior(); break;
-            case StateType.Attack: AttackBehavior(); break;
+            case StateType.Patrol:     PatrolBehavior();     break;
+            case StateType.LookAround: LookAroundBehavior(); break;
+            case StateType.Follow:     FollowBehavior();     break;
+            case StateType.Attack:     AttackBehavior();     break;
         }
     }
 
@@ -141,9 +175,23 @@ public class KnightAIController : MonoBehaviour
 
         bool waypointReached = !_agent.pathPending && _agent.remainingDistance <= waypointReachedDistance;
         if (waypointReached)
+        {
             _currentWaypointIndex = (_currentWaypointIndex + 1) % waypoints.Length;
 
+            if (Random.value <= lookAroundChance)
+            {
+                nextState = StateType.LookAround;
+                ChangeState();
+                return;
+            }
+        }
+
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
+    }
+
+    private void LookAroundBehavior()
+    {
+        _lookAroundTimer -= Time.deltaTime;
     }
 
     private void FollowBehavior()

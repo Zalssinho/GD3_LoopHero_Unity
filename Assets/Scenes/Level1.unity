@@ -17685,7 +17685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SightPerception
   IsDetected: 1
-  detectionRadius: 15
+  detectionRadius: 0
   detectionObject: {fileID: 822358087}
 --- !u!195 &881790979
 NavMeshAgent:
@@ -17731,6 +17731,8 @@ MonoBehaviour:
   - {fileID: 1119719237}
   - {fileID: 162755408}
   waypointReachedDistance: 0.8
+  lookAroundChance: 0.5
+  lookAroundDuration: 3
   patrolSpeed: 2
   chaseSpeed: 5
   _labyrinthManager: {fileID: 1432055467}
