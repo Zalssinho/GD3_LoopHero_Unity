@@ -12,4 +12,4 @@ Thomas représente ici une IA disposant de plusieurs comportements intégrés :
 
 Un level design a été mis en place en restant fidèle à ce qui avait été fait précédemment. Des ajustements de dialogues ont également été réalisés, principalement lors de l’arrivée sur la case devant le portail, qui déclenche le mini-jeu. Un visuel (PNG) informe le joueur de sa mission dans le mini-jeu ainsi que des dangers possibles. Concernant l’UI, un compteur de clés a été ajouté afin d’améliorer la lisibilité de l’objectif.
 
-Le personnage que l'on incarne dans le miniJeu possède des animations de déplacement basique. Plus j'ajout d'une animation quand le personnage récupére une clé.
+Le personnage que l'on incarne dans le miniJeu possède des animations de déplacement basique. Plus l'ajout d'une animation quand le personnage récupére une clé.
