@@ -17,9 +17,11 @@ public class LabyrinthPlayer : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     private static readonly int SpeedHash = Animator.StringToHash("Speed");
+    private static readonly int PickUpHash = Animator.StringToHash("PickUp");
 
     private CharacterController _characterController;
     private float _verticalVelocity;
+    private bool _isPickingUp = false;
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class LabyrinthPlayer : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (_isPickingUp) return;
         Keyboard keyboard = Keyboard.current;
         if (keyboard == null) return;
 
@@ -81,5 +84,31 @@ public class LabyrinthPlayer : MonoBehaviour
 
         Vector3 velocity = moveDirection.normalized * (inputMagnitude * currentSpeed) + Vector3.up * _verticalVelocity;
         _characterController.Move(velocity * Time.deltaTime);
+    }
+
+    /// <summary>Déclenche l'animation de ramassage et appelle onComplete une fois terminée.</summary>
+    public void PlayPickUp(System.Action onComplete)
+    {
+        if (_isPickingUp) return;
+        StartCoroutine(PickUpRoutine(onComplete));
+    }
+
+    private System.Collections.IEnumerator PickUpRoutine(System.Action onComplete)
+    {
+        _isPickingUp = true;
+
+        if (_animator != null)
+        {
+            _animator.SetFloat(SpeedHash, 0f);
+            _animator.SetTrigger(PickUpHash);
+        }
+
+        // Attend la durée de l'animation via l'exit time (90% de la clip)
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        float clipDuration = stateInfo.length > 0 ? stateInfo.length * 0.9f : 1.5f;
+        yield return new WaitForSeconds(clipDuration);
+
+        _isPickingUp = false;
+        onComplete?.Invoke();
     }
 }

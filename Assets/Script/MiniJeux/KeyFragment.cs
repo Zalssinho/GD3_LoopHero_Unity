@@ -28,7 +28,16 @@ public class KeyFragment : MonoBehaviour
     {
         if (!other.CompareTag("LabyrinthPlayer")) return;
 
-        _tracker.CollectFragment();
-        gameObject.SetActive(false);
+        LabyrinthPlayer labyrinthPlayer = other.GetComponent<LabyrinthPlayer>();
+        if (labyrinthPlayer == null) return;
+
+        // Désactive le trigger pour éviter un double déclenchement
+        GetComponent<Collider>().enabled = false;
+
+        labyrinthPlayer.PlayPickUp(() =>
+        {
+            _tracker.CollectFragment();
+            gameObject.SetActive(false);
+        });
     }
 }
