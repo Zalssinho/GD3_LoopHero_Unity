@@ -6,6 +6,9 @@ public class WallTriggerCell : MonoBehaviour, IActionable
     [SerializeField] private KeyFragmentTracker _tracker;
     [SerializeField] private LabyrinthManager _labyrinthManager;
 
+    [Header("Dialogue Before Enter")]
+    [SerializeField] private DialogueComponent _entryDialogue;
+
     [Header("Door / Wall Settings")]
     [SerializeField] private GameObject _wall;
     [SerializeField] private float _moveDistance = 5f;
@@ -15,6 +18,7 @@ public class WallTriggerCell : MonoBehaviour, IActionable
     private Vector3 _wallStartPosition;
     private Vector3 _wallTargetPosition;
     private bool _doorOpened = false;
+    private bool _dialoguePlayed = false;
 
     private void Start()
     {
@@ -39,6 +43,14 @@ public class WallTriggerCell : MonoBehaviour, IActionable
         if (_tracker.AllFragmentsCollected)
         {
             OpenDoor();
+            return;
+        }
+
+        // Affiche le dialogue d'entrée la première fois, puis entre directement
+        if (_entryDialogue != null && !_dialoguePlayed)
+        {
+            _dialoguePlayed = true;
+            _entryDialogue.Action(currentPawn);
         }
         else
         {
@@ -46,9 +58,14 @@ public class WallTriggerCell : MonoBehaviour, IActionable
         }
     }
 
+    /// <summary>Appelé par l'event onDialogueComplete du DialogueComponent d'entrée.</summary>
+    public void OnEntryDialogueComplete()
+    {
+        _labyrinthManager.EnterLabyrinth();
+    }
+
     private void OnAllFragmentsCollected()
     {
-        // Retour plateau immédiat, puis ouverture de la porte
         _labyrinthManager.ExitLabyrinth();
         OpenDoor();
     }

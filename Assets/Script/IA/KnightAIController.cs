@@ -14,8 +14,11 @@ public class KnightAIController : MonoBehaviour
     [SerializeField] private StateType state = StateType.Patrol;
     [SerializeField] private StateType nextState = StateType.None;
     [SerializeField] private GameObject target;
-    [SerializeField] private GameObject navpoint;
     [SerializeField] private float attackDistance = 1.5f;
+
+    [Header("Patrol Waypoints")]
+    [SerializeField] private Transform[] waypoints;
+    [SerializeField] private float waypointReachedDistance = 0.5f;
 
     [Header("Movement Speeds")]
     [SerializeField] private float patrolSpeed = 2f;
@@ -28,6 +31,7 @@ public class KnightAIController : MonoBehaviour
     private Animator _animator;
     private SightPerception _sight;
     private bool _isCatching = false;
+    private int _currentWaypointIndex = 0;
 
     private void Awake()
     {
@@ -128,8 +132,17 @@ public class KnightAIController : MonoBehaviour
 
     private void PatrolBehavior()
     {
+        if (waypoints == null || waypoints.Length == 0) return;
+
         _agent.speed = patrolSpeed;
-        _agent.SetDestination(navpoint.transform.position);
+
+        Transform currentWaypoint = waypoints[_currentWaypointIndex];
+        _agent.SetDestination(currentWaypoint.position);
+
+        bool waypointReached = !_agent.pathPending && _agent.remainingDistance <= waypointReachedDistance;
+        if (waypointReached)
+            _currentWaypointIndex = (_currentWaypointIndex + 1) % waypoints.Length;
+
         _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
 
@@ -143,9 +156,15 @@ public class KnightAIController : MonoBehaviour
     private void AttackBehavior()
     {
         _animator.SetTrigger("Smash");
+    }
+
+    /// <summary>Appelé par un Animation Event sur l'animation Smash au moment de l'impact.</summary>
+    public void OnSmashHit()
+    {
+        if (_isCatching) return;
 
         float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
-        if (distanceToTarget <= attackDistance && !_isCatching)
+        if (distanceToTarget <= attackDistance)
         {
             _isCatching = true;
             _labyrinthManager?.OnPlayerCaught();
@@ -158,7 +177,8 @@ public class KnightAIController : MonoBehaviour
         _agent.SetDestination(transform.position);
         state = StateType.Patrol;
         nextState = StateType.None;
-        _isCatching = false;   // ← ajouter
+        _isCatching = false;
+        _currentWaypointIndex = 0;
     }
 }
 

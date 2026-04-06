@@ -15,6 +15,7 @@ public class LabyrinthManager : MonoBehaviour
 
     [Header("Board UI")]
     [SerializeField] private GameObject _diceButton;
+    [SerializeField] private KeyCounterUI _keyCounterUI;
 
     [Header("Spawn Point")]
     [SerializeField] private Transform _labyrinthSpawnPoint;
@@ -49,6 +50,7 @@ public class LabyrinthManager : MonoBehaviour
         _boardPlayer.gameObject.SetActive(false);
 
         if (_diceButton != null) _diceButton.SetActive(false);
+        _keyCounterUI?.Show();
 
         _mainCamera.gameObject.SetActive(false);
         _labyrinthCamera.gameObject.SetActive(true);
@@ -66,6 +68,7 @@ public class LabyrinthManager : MonoBehaviour
         _mainCamera.gameObject.SetActive(true);
 
         if (_diceButton != null) _diceButton.SetActive(true);
+        _keyCounterUI?.Hide();
     }
 
     /// <summary>Appelé par KnightAIController quand le joueur est attrapé : reset complet du labyrinthe.</summary>

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01ece32ade69d54a83a6f4487a5ee96, type: 3}
+  m_Name: LabyrinthEntryDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueDatas
+  rows:
+  - rowNumber: 0
+    characterName: Fermier
+    longDialogue: "Pour pouvoir passer il faut r\xE9cup\xE9rer les 3 cl\xE9s que
+      le bon vieux Thomas a cach\xE9 dans sa ferme."
+    nextRowNumber: 1
+    hasChoices: 0
+    choices: []
+  - rowNumber: 0
+    characterName: Fermier
+    longDialogue: "Fait attention \xE0 toi si il te voit il utilisera la force pour
+      te faire partir, bon courage !"
+    nextRowNumber: -1
+    hasChoices: 0
+    choices: []

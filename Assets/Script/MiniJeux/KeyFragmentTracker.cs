@@ -9,6 +9,7 @@ public class KeyFragmentTracker : ScriptableObject
     [SerializeField] private int _collectedFragments;
 
     public int CollectedFragments => _collectedFragments;
+    public int TotalFragments => RequiredFragments;
     public bool AllFragmentsCollected => _collectedFragments >= RequiredFragments;
 
     public event Action OnFragmentCollected;
