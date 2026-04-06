@@ -17685,7 +17685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SightPerception
   IsDetected: 1
-  detectionRadius: 0
+  detectionRadius: 10
   detectionObject: {fileID: 822358087}
 --- !u!195 &881790979
 NavMeshAgent:
