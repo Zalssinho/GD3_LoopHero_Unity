@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01ece32ade69d54a83a6f4487a5ee96, type: 3}
+  m_Name: WoodIntroDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueDatas
+  rows:
+  - rowNumber: 0
+    characterName: "B\xFBcheron"
+    longDialogue: "Voila l'arbre \xE0 couper, il me faut 20 buches.  "
+    nextRowNumber: 1
+    hasChoices: 0
+    choices: []
+  - rowNumber: 1
+    characterName: "B\xFBcheron"
+    longDialogue: Pour couper les buches clique sur l'arbre.
+    nextRowNumber: -1
+    hasChoices: 0
+    choices: []
